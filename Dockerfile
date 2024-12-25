@@ -28,25 +28,20 @@ RUN pip install --no-cache-dir --upgrade pip \
     seaborn \
     scikit-learn \
     && jupyter notebook --generate-config
+
 # Create a working directory
-
 COPY ./samples /notebooks/samples
-
 WORKDIR /notebooks
 
 # Expose Jupyter port
 EXPOSE 8888
 
-
-# create a bash script to run the Jupyter notebook
-# this script will execute at runtime when
-# the container starts and the database is available
+# Bash script to configure and run Jupyter Notebook
 RUN printf "#!/bin/bash\n" > /opt/jupyter_runner.sh && \
-    printf "jupyter notebook --ip=\${JUPYTER_IP:-0.0.0.0} --port=\${PORT:-8888} --no-browser --allow-root --NotebookApp.password=\$(python -c \"from jupyter_server.auth import passwd; print(passwd('\$JUPYTER_PASSWORD'))\")\n" >> /opt/jupyter_runner.sh
+    printf "jupyter notebook --ip=\${JUPYTER_IP:-0.0.0.0} --port=\${PORT:-8888} --no-browser --allow-root --NotebookApp.password=\$(python -c \"from jupyter_server.auth import passwd; print(passwd('riffloric'))\")\n" >> /opt/jupyter_runner.sh
 
-# make the bash script executable
+# Make the bash script executable
 RUN chmod +x /opt/jupyter_runner.sh
 
-
-# Start Jupyter notebook with password authentication
-CMD ["sh", "-c", "/opt/jupyter_runner.sh"] 
+# Start Jupyter notebook
+CMD ["sh", "-c", "/opt/jupyter_runner.sh"]
