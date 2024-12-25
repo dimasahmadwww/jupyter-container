@@ -1,10 +1,8 @@
-# install with pip install rav
-
 scripts:
   build:
-    - docker build --build-arg JUPYTER_PASSWORD=your_secure_password -t jupyter-container .
+    - docker build --build-arg JUPYTER_PASSWORD=riffloric -t jupyter-container .
   run:
-    - docker run --rm -p 8888:8888 -e JUPYTER_IP=0.0.0.0 -e PORT=8888 -e JUPYTER_PASSWORD=your_secure_password --name jupyter-container -v ./data:/notebooks jupyter-container
+    - docker run --rm -p 8888:8888 -e JUPYTER_IP=0.0.0.0 -e PORT=8888 -e JUPYTER_PASSWORD=riffloric --name jupyter-container -v ./data:/notebooks jupyter-container
   stop:
     - docker stop jupyter-container
   remove:
